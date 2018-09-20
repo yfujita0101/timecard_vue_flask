@@ -85,25 +85,29 @@ def update_attendance(attendance_id):
         # 送信データ取得
         post_data = request.get_json()
 
-        print(post_data)
-
         # id検索して、見つかったら内容update
-
         for attendance in ATTENDANCES:
             if attendance['id'] == post_data['id']:
-                if post_data['id'] != '':
+                if post_data['classification'] == '出勤':
                     attendance['classification'] = post_data['classification']
-                if post_data['startTime'] != '':
-                    post_date = datetime.strptime(post_data['startTime'], '%H:%M')
-                    # 変更版の開始時刻作成
-                    startTime = datetime(attendance['day'].year, attendance['day'].month, attendance['day'].day, post_date.hour , post_date.minute, 0) - timedelta(hours=9)
-                    attendance['start'] = startTime
-                if post_data['endTime'] != '':
-                    post_date = datetime.strptime(post_data['endTime'], '%H:%M')
-                    endTime = datetime(attendance['day'].year, attendance['day'].month, attendance['day'].day, post_date.hour, post_date.minute , 0) - timedelta(hours=9)
-                    attendance['end'] = endTime
+
+                    if post_data['startTime'] != '':
+                        post_date = datetime.strptime(post_data['startTime'], '%H:%M')
+                        # 変更版の開始時刻作成
+                        startTime = datetime(attendance['day'].year, attendance['day'].month, attendance['day'].day, post_date.hour , post_date.minute, 0) - timedelta(hours=9)
+                        attendance['start'] = startTime
+                    if post_data['endTime'] != '':
+                        post_date = datetime.strptime(post_data['endTime'], '%H:%M')
+                        endTime = datetime(attendance['day'].year, attendance['day'].month, attendance['day'].day, post_date.hour, post_date.minute , 0) - timedelta(hours=9)
+                        attendance['end'] = endTime
+                else:
+                    attendance['classification'] = post_data['classification']
+                    attendance['start'] = ''
+                    attendance['end'] = ''
+
                 if post_data['memo'] != '':
                     attendance['memo'] = post_data['memo']
+
                 response_object['message'] = 'updated!'
             else:
                 response_object['message'] = 'no updated!'

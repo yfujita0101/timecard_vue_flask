@@ -80,8 +80,7 @@
                       label-for="form-start-input">
           <b-form-input id="form-start-time-input"
                         type="time"
-                        v-model="updateForm.startTime"
-                        required>
+                        v-model="updateForm.startTime">
           </b-form-input>
         </b-form-group>
         <b-form-group id="form-end-group"
@@ -89,8 +88,7 @@
                       label-for="form-end-input">
           <b-form-input id="form-end-time-input"
                         type="time"
-                        v-model="updateForm.endTime"
-                        required>
+                        v-model="updateForm.endTime">
           </b-form-input>
         </b-form-group>
         <b-form-group id="form-memo-group"
@@ -191,10 +189,6 @@ export default {
         endTime: this.updateForm.endTime,
         memo: this.updateForm.memo,
       };
-      // eslint-disable-next-line
-      console.log(payload);
-      // eslint-disable-next-line
-      console.log(this.updateForm.id);
       // api kickメソッド実行
       this.updateAttendance(payload, this.updateForm.id);
     },
